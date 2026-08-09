@@ -1,0 +1,847 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Gestión de Clientes</title>
+
+    <style>
+        /* =====================================================
+           ESTILOS GENERALES DEL FRONT-END
+           ===================================================== */
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f6f8;
+            color: #333;
+        }
+
+        /* Encabezado principal */
+        header {
+            background-color: #1f4e79;
+            color: white;
+            padding: 25px;
+            text-align: center;
+        }
+
+        header h1 {
+            margin-bottom: 8px;
+        }
+
+        header p {
+            font-size: 14px;
+        }
+
+        /* Contenedor principal */
+        .contenedor {
+            width: 90%;
+            max-width: 1100px;
+            margin: 30px auto;
+        }
+
+        /* Tarjetas */
+        .tarjeta {
+            background-color: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.10);
+            margin-bottom: 25px;
+        }
+
+        .tarjeta h2 {
+            color: #1f4e79;
+            margin-bottom: 20px;
+        }
+
+        /* Formulario */
+        .formulario {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+
+        .campo {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .campo label {
+            margin-bottom: 6px;
+            font-weight: bold;
+        }
+
+        .campo input {
+            padding: 11px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+
+        .campo input:focus {
+            outline: none;
+            border-color: #1f4e79;
+        }
+
+        /* Botones */
+        .botones {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        button {
+            padding: 10px 18px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .btn-guardar {
+            background-color: #1f4e79;
+            color: white;
+        }
+
+        .btn-limpiar {
+            background-color: #777;
+            color: white;
+        }
+
+        .btn-editar {
+            background-color: #d68910;
+            color: white;
+            padding: 7px 12px;
+        }
+
+        .btn-eliminar {
+            background-color: #c0392b;
+            color: white;
+            padding: 7px 12px;
+        }
+
+        button:hover {
+            opacity: 0.85;
+        }
+
+        /* Tabla de clientes */
+        .tabla-contenedor {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            padding: 12px;
+            border-bottom: 1px solid #ddd;
+            text-align: left;
+        }
+
+        th {
+            background-color: #1f4e79;
+            color: white;
+        }
+
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        /* Mensajes del sistema */
+        #mensaje {
+            margin-top: 15px;
+            font-weight: bold;
+            min-height: 20px;
+        }
+
+        .mensaje-exito {
+            color: #218838;
+        }
+
+        .mensaje-error {
+            color: #c0392b;
+        }
+
+        /* Adaptación para dispositivos móviles */
+        @media (max-width: 700px) {
+
+            .formulario {
+                grid-template-columns: 1fr;
+            }
+
+            .contenedor {
+                width: 95%;
+            }
+
+            table {
+                font-size: 13px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h1>Gestión de Clientes</h1>
+    <p>Componente Front-End del proyecto formativo</p>
+</header>
+
+
+<main class="contenedor">
+
+    <!-- =====================================================
+         FORMULARIO DE CLIENTES
+         ===================================================== -->
+
+    <section class="tarjeta">
+
+        <h2 id="tituloFormulario">Registrar cliente</h2>
+
+        <form id="formularioCliente">
+
+            <div class="formulario">
+
+                <!-- Nombre -->
+                <div class="campo">
+
+                    <label for="nombre">
+                        Nombre
+                    </label>
+
+                    <input
+                            type="text"
+                            id="nombre"
+                            name="nombre"
+                            maxlength="100"
+                            required
+                    >
+
+                </div>
+
+
+                <!-- Apellido paterno -->
+                <div class="campo">
+
+                    <label for="apellido_paterno">
+                        Apellido paterno
+                    </label>
+
+                    <input
+                            type="text"
+                            id="apellido_paterno"
+                            name="apellido_paterno"
+                            maxlength="100"
+                            required
+                    >
+
+                </div>
+
+
+                <!-- Apellido materno -->
+                <div class="campo">
+
+                    <label for="apellido_materno">
+                        Apellido materno
+                    </label>
+
+                    <input
+                            type="text"
+                            id="apellido_materno"
+                            name="apellido_materno"
+                            maxlength="100"
+                            required
+                    >
+
+                </div>
+
+
+                <!-- Correo electrónico -->
+                <div class="campo">
+
+                    <label for="email">
+                        Correo electrónico
+                    </label>
+
+                    <input
+                            type="email"
+                            id="email"
+                            name="email"
+                            maxlength="150"
+                            required
+                    >
+
+                </div>
+
+
+                <!-- Dirección -->
+                <div class="campo">
+
+                    <label for="direccion">
+                        Dirección
+                    </label>
+
+                    <input
+                            type="text"
+                            id="direccion"
+                            name="direccion"
+                            maxlength="200"
+                            required
+                    >
+
+                </div>
+
+            </div>
+
+
+            <!-- Botones del formulario -->
+            <div class="botones">
+
+                <button
+                        type="submit"
+                        class="btn-guardar"
+                        id="btnGuardar">
+                    Guardar cliente
+                </button>
+
+                <button
+                        type="button"
+                        class="btn-limpiar"
+                        onclick="limpiarFormulario()">
+                    Limpiar
+                </button>
+
+            </div>
+
+
+            <!-- Mensaje para el usuario -->
+            <p id="mensaje"></p>
+
+        </form>
+
+    </section>
+
+
+    <!-- =====================================================
+         LISTADO DE CLIENTES
+         ===================================================== -->
+
+    <section class="tarjeta">
+
+        <h2>Clientes registrados</h2>
+
+        <div class="tabla-contenedor">
+
+            <table>
+
+                <thead>
+
+                <tr>
+
+                    <th>ID</th>
+
+                    <th>Nombre</th>
+
+                    <th>Apellido paterno</th>
+
+                    <th>Apellido materno</th>
+
+                    <th>Correo</th>
+
+                    <th>Dirección</th>
+
+                    <th>Acciones</th>
+
+                </tr>
+
+                </thead>
+
+
+                <tbody id="tablaClientes">
+
+                <!--
+                    Los clientes serán cargados
+                    dinámicamente mediante JavaScript.
+                -->
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </section>
+
+</main>
+
+
+<script>
+
+    /* =====================================================
+       CONFIGURACIÓN DE LA API
+       ===================================================== */
+
+    // Endpoint definido en clientecontroller.java
+    const API_URL = "/api/clientes";
+
+
+    // Variable utilizada para saber si estamos editando.
+    let clienteEditandoId = null;
+
+
+    /* =====================================================
+       MOSTRAR MENSAJES
+       ===================================================== */
+
+    function mostrarMensaje(texto, tipo) {
+
+        const mensaje = document.getElementById("mensaje");
+
+        mensaje.textContent = texto;
+
+        mensaje.className = tipo;
+
+    }
+
+
+    /* =====================================================
+       LIMPIAR FORMULARIO
+       ===================================================== */
+
+    function limpiarFormulario() {
+
+        document.getElementById("formularioCliente").reset();
+
+        clienteEditandoId = null;
+
+        document.getElementById("tituloFormulario").textContent =
+            "Registrar cliente";
+
+        document.getElementById("btnGuardar").textContent =
+            "Guardar cliente";
+
+        document.getElementById("mensaje").textContent = "";
+
+        document.getElementById("mensaje").className = "";
+
+    }
+
+
+    /* =====================================================
+       CARGAR CLIENTES
+       ===================================================== */
+
+    async function cargarClientes() {
+
+        try {
+
+            const respuesta = await fetch(API_URL);
+
+            if (!respuesta.ok) {
+
+                throw new Error(
+                    "No fue posible obtener los clientes."
+                );
+
+            }
+
+            const clientes = await respuesta.json();
+
+            mostrarClientes(clientes);
+
+        } catch (error) {
+
+            console.error("Error al cargar clientes:", error);
+
+            mostrarMensaje(
+                "No fue posible cargar los clientes.",
+                "mensaje-error"
+            );
+
+        }
+
+    }
+
+
+    /* =====================================================
+       MOSTRAR CLIENTES EN LA TABLA
+       ===================================================== */
+
+    function mostrarClientes(clientes) {
+
+        const tabla = document.getElementById("tablaClientes");
+
+        tabla.innerHTML = "";
+
+
+        if (clientes.length === 0) {
+
+            tabla.innerHTML = `
+                <tr>
+                    <td colspan="7">
+                        No hay clientes registrados.
+                    </td>
+                </tr>
+            `;
+
+            return;
+        }
+
+
+        clientes.forEach(cliente => {
+
+            const fila = document.createElement("tr");
+
+
+            fila.innerHTML = `
+
+                <td>
+                    ${cliente.id ?? ""}
+                </td>
+
+                <td>
+                    ${cliente.nombre ?? ""}
+                </td>
+
+                <td>
+                    ${cliente.apellido_paterno ?? ""}
+                </td>
+
+                <td>
+                    ${cliente.apellido_materno ?? ""}
+                </td>
+
+                <td>
+                    ${cliente.email ?? ""}
+                </td>
+
+                <td>
+                    ${cliente.direccion ?? ""}
+                </td>
+
+                <td>
+
+                    <button
+                        class="btn-editar"
+                        onclick="editarCliente(${cliente.id})">
+                        Editar
+                    </button>
+
+                    <button
+                        class="btn-eliminar"
+                        onclick="eliminarCliente(${cliente.id})">
+                        Eliminar
+                    </button>
+
+                </td>
+
+            `;
+
+
+            tabla.appendChild(fila);
+
+        });
+
+    }
+
+
+    /* =====================================================
+       REGISTRAR O ACTUALIZAR CLIENTE
+       ===================================================== */
+
+    document
+        .getElementById("formularioCliente")
+        .addEventListener("submit", async function(event) {
+
+            event.preventDefault();
+
+
+            // Crear objeto con los datos del formulario.
+            const cliente = {
+
+                nombre:
+                    document.getElementById("nombre").value.trim(),
+
+                apellido_paterno:
+                    document
+                        .getElementById("apellido_paterno")
+                        .value
+                        .trim(),
+
+                apellido_materno:
+                    document
+                        .getElementById("apellido_materno")
+                        .value
+                        .trim(),
+
+                email:
+                    document.getElementById("email").value.trim(),
+
+                direccion:
+                    document
+                        .getElementById("direccion")
+                        .value
+                        .trim()
+
+            };
+
+
+            try {
+
+                let respuesta;
+
+
+                /* -------------------------------------------------
+                   Si existe un ID, se actualiza el cliente.
+                   Si no existe, se registra un nuevo cliente.
+                   ------------------------------------------------- */
+
+                if (clienteEditandoId !== null) {
+
+                    respuesta = await fetch(
+                        `${API_URL}/${clienteEditandoId}`,
+                        {
+                            method: "PUT",
+
+                            headers: {
+                                "Content-Type": "application/json"
+                            },
+
+                            body: JSON.stringify(cliente)
+                        }
+                    );
+
+                } else {
+
+                    respuesta = await fetch(
+                        API_URL,
+                        {
+                            method: "POST",
+
+                            headers: {
+                                "Content-Type": "application/json"
+                            },
+
+                            body: JSON.stringify(cliente)
+                        }
+                    );
+
+                }
+
+
+                if (!respuesta.ok) {
+
+                    throw new Error(
+                        "No fue posible guardar el cliente."
+                    );
+
+                }
+
+
+                if (clienteEditandoId !== null) {
+
+                    mostrarMensaje(
+                        "Cliente actualizado correctamente.",
+                        "mensaje-exito"
+                    );
+
+                } else {
+
+                    mostrarMensaje(
+                        "Cliente registrado correctamente.",
+                        "mensaje-exito"
+                    );
+
+                }
+
+
+                limpiarFormulario();
+
+                await cargarClientes();
+
+
+            } catch (error) {
+
+                console.error(
+                    "Error al guardar cliente:",
+                    error
+                );
+
+                mostrarMensaje(
+                    "Error al guardar el cliente.",
+                    "mensaje-error"
+                );
+
+            }
+
+        });
+
+
+    /* =====================================================
+       EDITAR CLIENTE
+       ===================================================== */
+
+    async function editarCliente(id) {
+
+        try {
+
+            const respuesta = await fetch(
+                `${API_URL}/${id}`
+            );
+
+
+            if (!respuesta.ok) {
+
+                throw new Error(
+                    "No fue posible consultar el cliente."
+                );
+
+            }
+
+
+            const cliente = await respuesta.json();
+
+
+            document.getElementById("nombre").value =
+                cliente.nombre ?? "";
+
+            document.getElementById("apellido_paterno").value =
+                cliente.apellido_paterno ?? "";
+
+            document.getElementById("apellido_materno").value =
+                cliente.apellido_materno ?? "";
+
+            document.getElementById("email").value =
+                cliente.email ?? "";
+
+            document.getElementById("direccion").value =
+                cliente.direccion ?? "";
+
+
+            clienteEditandoId = id;
+
+
+            document.getElementById("tituloFormulario").textContent =
+                "Editar cliente";
+
+            document.getElementById("btnGuardar").textContent =
+                "Actualizar cliente";
+
+
+            mostrarMensaje(
+                "Editando cliente seleccionado.",
+                "mensaje-exito"
+            );
+
+
+            // Llevar al usuario hasta el formulario.
+            window.scrollTo({
+                top: 0,
+                behavior: "smooth"
+            });
+
+
+        } catch (error) {
+
+            console.error(
+                "Error al consultar cliente:",
+                error
+            );
+
+            mostrarMensaje(
+                "No fue posible cargar el cliente.",
+                "mensaje-error"
+            );
+
+        }
+
+    }
+
+
+    /* =====================================================
+       ELIMINAR CLIENTE
+       ===================================================== */
+
+    async function eliminarCliente(id) {
+
+        // Confirmación antes de eliminar.
+        const confirmar = confirm(
+            "¿Está seguro de eliminar este cliente?"
+        );
+
+
+        if (!confirmar) {
+
+            return;
+
+        }
+
+
+        try {
+
+            const respuesta = await fetch(
+                `${API_URL}/${id}`,
+                {
+                    method: "DELETE"
+                }
+            );
+
+
+            if (!respuesta.ok) {
+
+                throw new Error(
+                    "No fue posible eliminar el cliente."
+                );
+
+            }
+
+
+            mostrarMensaje(
+                "Cliente eliminado correctamente.",
+                "mensaje-exito"
+            );
+
+
+            await cargarClientes();
+
+
+        } catch (error) {
+
+            console.error(
+                "Error al eliminar cliente:",
+                error
+            );
+
+            mostrarMensaje(
+                "No fue posible eliminar el cliente.",
+                "mensaje-error"
+            );
+
+        }
+
+    }
+
+
+    /* =====================================================
+       INICIO DEL FRONT-END
+       ===================================================== */
+
+    // Cargar los clientes cuando se abre la página.
+    cargarClientes();
+
+</script>
+
+</body>
+
+</html>
